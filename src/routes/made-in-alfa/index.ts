@@ -1,0 +1,1 @@
+export { MadeInAlfa } from "./MadeInAlfa";
