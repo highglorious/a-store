@@ -1,12 +1,13 @@
 import { Typography } from "@alfalab/core-components/typography";
-import { Gap } from "@alfalab/core-components/gap";
 import { ListMIcon } from "@alfalab/icons-glyph/ListMIcon";
 import { Link } from "react-router-dom";
-import "./header.css";
-import { SidePanelProps } from "../../routes/root/Root";
-import { IconButton } from "@alfalab/core-components/icon-button";
+import "./Header.css";
+import { SidePanelProps } from "../side-panel";
+import { FC } from "react";
 
-export const Header = ({ handleView }: Pick<SidePanelProps, "handleView">) => {
+export const Header: FC<Pick<SidePanelProps, "handleView">> = ({
+  handleView,
+}) => {
   return (
     <div className="header">
       <Link className="title" to={`/`}>

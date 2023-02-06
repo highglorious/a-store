@@ -3,18 +3,23 @@ import { SidePanelResponsive } from "@alfalab/core-components/side-panel/respons
 import { Typography } from "@alfalab/core-components/typography";
 import { Link } from "react-router-dom";
 import { Link as LinkA } from "@alfalab/core-components/link";
-import { SidePanelProps } from "../../routes/root/Root";
 import "./SidePanel.css";
 import { PhoneMIcon } from "@alfalab/icons-glyph/PhoneMIcon";
 import { MailMIcon } from "@alfalab/icons-glyph/MailMIcon";
 import { WhatsappMIcon } from "@alfalab/icons-logotype/WhatsappMIcon";
-import { MouseEvent } from "react";
+import { FC, MouseEvent } from "react";
 
 type SidePanelLinkProps = {
   title: string;
   path: string;
 };
-const SidePanelLink = ({ title, path }: SidePanelLinkProps) => {
+
+export type SidePanelProps = {
+  view: boolean;
+  handleView: () => void;
+};
+
+const SidePanelLink: FC<SidePanelLinkProps> = ({ title, path }) => {
   return (
     <Link style={{ textDecoration: "none" }} to={path}>
       <Typography.Title
@@ -30,7 +35,7 @@ const SidePanelLink = ({ title, path }: SidePanelLinkProps) => {
   );
 };
 
-export const SidePanel = ({ view, handleView }: SidePanelProps) => {
+export const SidePanel: FC<SidePanelProps> = ({ view, handleView }) => {
   const handleClick = (e: MouseEvent<Element>) => {
     if ((e.target as Element).id === "target") handleView();
   };

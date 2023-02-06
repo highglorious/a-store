@@ -1,5 +1,6 @@
+import { FC } from "react";
 import "./ErrorPage.css";
-export function ErrorPage() {
+export const ErrorPage: FC = () => {
   //const error: ReturnType<typeof useRouteError> = useRouteError();
   //console.error(error);
 
@@ -8,4 +9,4 @@ export function ErrorPage() {
       <h1>Ой! Ошибка</h1>
     </div>
   );
-}
+};

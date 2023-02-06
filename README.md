@@ -6,12 +6,10 @@
 
 ## Стэк
 
-При реализации проекта вам **необходимо** использовать следующий стэк:
-
-- React, TypeScript и Redux Toolkit (thunk или sagas на выбор, без использования RTK Query);
+- React, TypeScript и Redux Toolkit, Redux Saga;
 - Инструменты тестирования Jest и react testing library;
-- Библиотеку для роутинга React Router v6;
-- Библиотеку компонентом [Core Components](https://core-ds.github.io/core-components/master/);
+- Роутинг React Router v6;
+- Библиотека компонентов [Core Components](https://core-ds.github.io/core-components/master/);
 - Библиотека для работы с формами: Formik и react-hook-form.
 
 ## Badges

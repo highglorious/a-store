@@ -1,16 +1,17 @@
 import { Link } from "react-router-dom";
 import "./Home.css";
-import rightPic from "./Frame_45.jpeg";
-import leftPic from "./Frame_46.jpeg";
+import customDesignImage from "./custom-design-link-img.jpeg";
+import madeInAlfaImage from "./made-in-alfa-link-img.jpeg";
 import { Typography } from "@alfalab/core-components/typography";
+import { FC } from "react";
 
-export const Home = () => {
+export const Home: FC = () => {
   return (
     <div className="home-container">
       <Link className="link-wrapper" to={"made-in-alfa"}>
         <img
           className="link-wrapper__image link-wrapper__image_hover"
-          src={leftPic}
+          src={madeInAlfaImage}
           alt="Сделано в Альфе"
         />
         <Typography.TitleResponsive
@@ -27,7 +28,7 @@ export const Home = () => {
       <Link className="link-wrapper" to={"custom-design"}>
         <img
           className="link-wrapper__image link-wrapper__image_hover"
-          src={rightPic}
+          src={customDesignImage}
           alt="Свой дизайн"
         />
         <Typography.TitleResponsive

@@ -1,6 +1,7 @@
 import { Typography } from "@alfalab/core-components/typography";
-import "./footer.css";
-export const Footer = () => {
+import { FC } from "react";
+import "./Footer.css";
+export const Footer: FC = () => {
   return (
     <div className="footer">
       <Typography.Text view="primary-medium" color="tertiary" weight="bold">

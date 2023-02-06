@@ -1,17 +1,11 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import "./Root.css";
 import { Outlet } from "react-router-dom";
-
 import { Footer } from "../../components/footer";
 import { Header } from "../../components/header";
 import { SidePanel } from "../../components/side-panel";
 
-export type SidePanelProps = {
-  view: boolean;
-  handleView: () => void;
-};
-
-export const Root = () => {
+export const Root: FC = () => {
   const [open, setOpen] = useState<boolean>(false);
   const handleSidePanelOpen = () => setOpen(!open);
 
