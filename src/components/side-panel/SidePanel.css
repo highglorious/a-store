@@ -1,0 +1,7 @@
+.side-panel {
+}
+
+.side-panel__icons {
+  display: flex;
+  gap: 4px;
+}

@@ -8,15 +8,37 @@
   align-items: center;
   padding: 0 40px;
   background-color: white;
+  z-index: 1;
+}
+.title {
+  text-decoration: none;
+  flex-shrink: 0;
 }
 .menu {
   display: flex;
   justify-content: space-evenly;
   align-items: flex-end;
 }
-.menu-icon {
+.menu__icon {
   width: 30px;
 }
-.title {
-  flex-shrink: 0;
+.menu__icon_show-pointer:hover {
+  cursor: pointer;
+}
+
+.menu__title {
+  margin-left: 12px;
+}
+
+@media (max-width: 1023px) {
+  .menu__title {
+    display: none;
+  }
+  .header {
+    padding: 0 20px;
+  }
+}
+
+.menu__title_show-pointer:hover {
+  cursor: pointer;
 }
