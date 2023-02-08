@@ -1,0 +1,44 @@
+.made-in-alfa-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  flex: 1 1 60%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+.made-in-alfa__title {
+  color: #000000;
+  font-size: 110px;
+  font-weight: 700;
+}
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: 75px;
+  gap: 20px;
+  flex: 1 1 auto;
+}
+@media (max-width: 1200px) {
+  .made-in-alfa-container {
+    max-width: 95%;
+  }
+}
+
+@media (max-width: 992px) {
+  .made-in-alfa__title {
+    font-size: 75px;
+    line-height: 70px;
+  }
+  .card-container {
+    padding-top: 35px;
+  }
+}
+
+@media (max-width: 600px) {
+  .made-in-alfa__title {
+    font-size: 42px;
+    line-height: 36px;
+  }
+}
