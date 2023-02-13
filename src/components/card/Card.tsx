@@ -1,5 +1,5 @@
 import { Typography } from "@alfalab/core-components/typography";
-import { FC } from "react";
+import { FC, PropsWithChildren } from "react";
 import { Link } from "react-router-dom";
 import formatCurrency from "../../utils/formatCurrency";
 import "./Card.css";
@@ -12,12 +12,13 @@ export type CardProps = {
   path: string;
 };
 
-export const Card: FC<CardProps> = ({
+export const Card: FC<PropsWithChildren<CardProps>> = ({
   preview,
   title,
   price,
   availability,
   path,
+  children,
 }) => {
   return (
     <Link className="card-wrapper" to={path} data-testid="product-card">
@@ -30,13 +31,13 @@ export const Card: FC<CardProps> = ({
       >
         {title}
       </Typography.TitleResponsive>
+      {children}
       <Typography.TitleResponsive
         className="card-wrapper__price"
         view="medium"
         weight="bold"
         tag="div"
         color="primary"
-        id="target"
       >
         {availability ? formatCurrency(price) : "Нет в наличии"}
       </Typography.TitleResponsive>

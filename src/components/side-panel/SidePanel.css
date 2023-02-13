@@ -1,4 +1,11 @@
-.side-panel {
+.side-panel-link {
+  text-decoration: none;
+}
+
+.side-panel-link__title {
+}
+.side-panel-link__title_active {
+  color: #ef3124;
 }
 
 .side-panel__icons {

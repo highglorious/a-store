@@ -6,6 +6,7 @@ import { CustomDesign } from "./custom-design";
 import { Home } from "./home";
 import { MadeInAlfa } from "./made-in-alfa/";
 import { ErrorPage } from "./error-page";
+import { Product } from "./product";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "cart",
         element: <Cart />,
+      },
+      {
+        path: "product/:productId",
+        element: <Product />,
       },
     ],
   },

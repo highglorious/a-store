@@ -1,0 +1,36 @@
+:root {
+  --product-block-wrapper-gap: 20px;
+}
+
+.product-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+.product-block-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 5px;
+}
+
+.product-block {
+  flex: 1 1 45%;
+
+  min-width: 400px;
+  padding: 10px;
+}
+
+.product-block__price {
+  margin-bottom: 5%;
+}
+
+.product-block__description {
+}
+.product-block__title {
+  margin-bottom: 5%;
+}
