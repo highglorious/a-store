@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import "./Root.css";
-import { Outlet } from "react-router-dom";
+import { Outlet, ScrollRestoration } from "react-router-dom";
 import { Footer } from "../../components/footer";
 import { Header } from "../../components/header";
 import { SidePanel } from "../../components/side-panel";
@@ -17,6 +17,7 @@ export const Root: FC = () => {
         <Outlet />
       </div>
       <Footer />
+      <ScrollRestoration />
     </div>
   );
 };
