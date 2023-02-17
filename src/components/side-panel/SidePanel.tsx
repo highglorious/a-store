@@ -1,8 +1,8 @@
 import { Gap } from "@alfalab/core-components/gap";
 import { SidePanelResponsive } from "@alfalab/core-components/side-panel/responsive";
 import { Typography } from "@alfalab/core-components/typography";
-import { Link } from "react-router-dom";
-import { Link as LinkA } from "@alfalab/core-components/link";
+import { NavLink } from "react-router-dom";
+import { Link } from "@alfalab/core-components/link";
 import "./SidePanel.css";
 import { PhoneMIcon } from "@alfalab/icons-glyph/PhoneMIcon";
 import { MailMIcon } from "@alfalab/icons-glyph/MailMIcon";
@@ -21,17 +21,24 @@ export type SidePanelProps = {
 
 const SidePanelLink: FC<SidePanelLinkProps> = ({ title, path }) => {
   return (
-    <Link style={{ textDecoration: "none" }} to={path}>
-      <Typography.Title
-        view="medium"
-        weight="bold"
-        tag="div"
-        color="primary"
-        id="target"
-      >
-        {title}
-      </Typography.Title>
-    </Link>
+    <NavLink className="side-panel-link" to={path}>
+      {({ isActive }) => (
+        <Typography.Title
+          view="medium"
+          weight="bold"
+          tag="div"
+          color="primary"
+          id="target"
+          className={
+            isActive
+              ? "side-panel-link__title_active"
+              : "side-panel-link__title"
+          }
+        >
+          {title}
+        </Typography.Title>
+      )}
+    </NavLink>
   );
 };
 
@@ -78,30 +85,30 @@ export const SidePanel: FC<SidePanelProps> = ({ view, handleView }) => {
             </Typography.Text>
             <Gap size="s" />
             <div className="side-panel__icons">
-              <LinkA
+              <Link
                 rel="noopener"
                 target="_blank"
                 underline={false}
                 href="mailto:info@alfabankstore.ru"
               >
                 <MailMIcon />
-              </LinkA>
-              <LinkA
+              </Link>
+              <Link
                 rel="noopener"
                 target="_blank"
                 underline={false}
                 href="tel:+7%20906%20061-60-20"
               >
                 <PhoneMIcon />
-              </LinkA>
-              <LinkA
+              </Link>
+              <Link
                 rel="noopener"
                 target="_blank"
                 underline={false}
                 href="https://wa.me/79060616020"
               >
                 <WhatsappMIcon />
-              </LinkA>
+              </Link>
             </div>
           </div>
         </SidePanelResponsive.Footer>
