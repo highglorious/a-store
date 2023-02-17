@@ -8,7 +8,7 @@ import { MadeInAlfa } from "./made-in-alfa/";
 import { ErrorPage } from "./error-page";
 import { Product } from "./product";
 
-const router = createBrowserRouter([
+export const routesConfig = [
   {
     path: "/",
     element: <Root />,
@@ -37,5 +37,6 @@ const router = createBrowserRouter([
       },
     ],
   },
-]);
+];
+const router = createBrowserRouter(routesConfig);
 export default router;

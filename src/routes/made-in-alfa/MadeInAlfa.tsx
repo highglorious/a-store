@@ -13,7 +13,7 @@ export const MadeInAlfa: FC = () => {
       title={title}
       price={price}
       availability={availability}
-      path={"/product"}
+      path={`/product/${id}`}
     />
   ));
 
