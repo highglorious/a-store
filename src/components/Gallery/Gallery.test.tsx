@@ -1,7 +1,7 @@
-import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { Gallery } from ".";
+import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
+import { Gallery } from ".";
 
 describe("Gallery Component Test", () => {
   test("render 3 list image with 1 preview", () => {

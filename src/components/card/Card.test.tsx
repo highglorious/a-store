@@ -1,7 +1,7 @@
-import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { Card } from ".";
+import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
+import { Card } from ".";
 
 describe("Card Component Test", () => {
   test("render card component with or without availability", async () => {

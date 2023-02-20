@@ -1,36 +1,25 @@
-import { FC } from "react";
-import { Gallery } from "../../components/Gallery";
-import "./Product.css";
-import data from "./custom-products.json";
-import { Typography } from "@alfalab/core-components/typography";
-import formatCurrency from "../../utils/formatCurrency";
+import { FC, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { ProductForm } from "../../components/product-form";
+import { Typography } from "@alfalab/core-components/typography";
 import { Gap } from "@alfalab/core-components/gap";
 import { Button } from "@alfalab/core-components/button";
-
-type ProductProps = {
-  id: number;
-  preview: string;
-  images: string[];
-  title: string;
-  subtitle?: string;
-  price: number;
-  description: string;
-  colors?: string[];
-  sizes?: string[];
-  stickerNumbers?: number[];
-  models?: string[];
-  availability: boolean;
-};
+import { Spinner } from "@alfalab/core-components/spinner";
+import "./Product.css";
+import { Gallery } from "../../components/Gallery";
+import formatCurrency from "../../utils/formatCurrency";
+import { ProductForm } from "../../components/product-form";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { productActions } from "./productSlice";
+import {
+  hasErrorSelector,
+  isLoadingSelector,
+  itemProductSelector,
+} from "./productSelectors";
+import { ErrorBoundary } from "../../pages/error-boundary";
 
 export const Product: FC = () => {
   const { productId } = useParams();
-
-  const product: ProductProps = data.products.filter(
-    (product) => product.id === parseInt(productId!)
-  )[0];
-
+  const dispatch = useAppDispatch();
   const {
     images,
     title,
@@ -41,7 +30,21 @@ export const Product: FC = () => {
     stickerNumbers,
     models,
     availability,
-  } = product;
+  } = useAppSelector(itemProductSelector);
+  const isLoading = useAppSelector(isLoadingSelector);
+  const hasError = useAppSelector(hasErrorSelector);
+
+  useEffect(() => {
+    dispatch(productActions.request(productId!));
+  }, []);
+
+  if (isLoading) {
+    return <Spinner visible={true} size="m" />;
+  }
+
+  if (hasError) {
+    throw new Error("Fetch error");
+  }
 
   return (
     <div className="product-container">

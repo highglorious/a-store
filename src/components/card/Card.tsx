@@ -1,8 +1,8 @@
-import { Typography } from "@alfalab/core-components/typography";
 import { FC, PropsWithChildren } from "react";
 import { Link } from "react-router-dom";
-import formatCurrency from "../../utils/formatCurrency";
+import { Typography } from "@alfalab/core-components/typography";
 import "./Card.css";
+import formatCurrency from "../../utils/formatCurrency";
 
 export type CardProps = {
   preview: string;

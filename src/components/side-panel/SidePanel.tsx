@@ -1,13 +1,13 @@
+import { FC, MouseEvent } from "react";
 import { Gap } from "@alfalab/core-components/gap";
+import { Link } from "@alfalab/core-components/link";
+import { MailMIcon } from "@alfalab/icons-glyph/MailMIcon";
+import { NavLink } from "react-router-dom";
+import { PhoneMIcon } from "@alfalab/icons-glyph/PhoneMIcon";
 import { SidePanelResponsive } from "@alfalab/core-components/side-panel/responsive";
 import { Typography } from "@alfalab/core-components/typography";
-import { NavLink } from "react-router-dom";
-import { Link } from "@alfalab/core-components/link";
-import "./SidePanel.css";
-import { PhoneMIcon } from "@alfalab/icons-glyph/PhoneMIcon";
-import { MailMIcon } from "@alfalab/icons-glyph/MailMIcon";
 import { WhatsappMIcon } from "@alfalab/icons-logotype/WhatsappMIcon";
-import { FC, MouseEvent } from "react";
+import "./SidePanel.css";
 
 type SidePanelLinkProps = {
   title: string;

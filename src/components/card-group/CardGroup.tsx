@@ -1,26 +1,16 @@
-import { Typography } from "@alfalab/core-components/typography";
 import { FC } from "react";
-import { Card, CardProps } from "../card";
+import { Typography } from "@alfalab/core-components/typography";
 import "./CardGroup.css";
+import { ProductGroupType } from "../../types/api";
+import { Card } from "../card";
 
-type extraCardProps = {
-  id: number;
-  subtitle: string;
-  stickerNumbers: number[];
-};
-
-export type CardGroupProps = {
-  title: string;
-  description: string;
-  products: (Omit<CardProps, "path"> & extraCardProps)[];
-};
-
-export const CardGroup: FC<CardGroupProps> = ({
+export const CardGroup: FC<ProductGroupType> = ({
+  id,
   title,
   description,
   products,
 }) => {
-  let cards = products.map(
+  const cards = products.map(
     ({ id, preview, title, price, availability, subtitle, stickerNumbers }) => (
       <Card
         key={id}
@@ -38,9 +28,9 @@ export const CardGroup: FC<CardGroupProps> = ({
         >
           {subtitle}
         </Typography.TitleResponsive>
-        <div className="card__item-qty">
-          Есть такой стикер и еще {stickerNumbers.length - 1}
-        </div>
+        {/* <div className="card__item-qty">
+          Есть такой стикер и еще {stickerNumbers!.length - 1}
+        </div> */}
       </Card>
     )
   );

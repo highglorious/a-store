@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
-import "./Root.css";
 import { Outlet, ScrollRestoration } from "react-router-dom";
+import "./Root.css";
 import { Footer } from "../../components/footer";
 import { Header } from "../../components/header";
 import { SidePanel } from "../../components/side-panel";
