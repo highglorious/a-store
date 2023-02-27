@@ -1,5 +1,6 @@
 import { FC } from "react";
+import "./Order.css";
 
-export const Cart: FC = () => {
+export const Order: FC = () => {
   return <div>Ваш заказ</div>;
 };

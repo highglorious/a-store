@@ -5,11 +5,11 @@ import formatCurrency from "./formatCurrency";
 const nbs = "\xa0";
 
 describe("Format Currency Utility Test", () => {
-  test("format 99 to 99 ₽", () => {
+  test("should format 99 to 99 ₽", () => {
     const price = formatCurrency(99);
     expect(price).toBe(`99${nbs}₽`);
   });
-  test("format 1999 to 1 999 ₽", () => {
+  test("should format 1999 to 1 999 ₽", () => {
     const price = formatCurrency(1999);
     expect(price).toBe(`1${nbs}999${nbs}₽`);
   });

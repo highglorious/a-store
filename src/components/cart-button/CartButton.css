@@ -1,0 +1,13 @@
+.cart-button {
+  position: fixed;
+  top: 90px;
+  right: 30px;
+}
+
+@media (max-width: 1024px) {
+  .cart-button {
+    top: auto;
+    bottom: 30px;
+    right: 30px;
+  }
+}
