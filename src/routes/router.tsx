@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import { Root } from "./root";
-import { Cart } from "../pages/cart";
+import { Order } from "../pages/order";
 import { ContactUs } from "../pages/contact-us";
 import { CustomDesign } from "../pages/custom-design";
 import { Home } from "../pages/home";
@@ -28,8 +28,8 @@ export const routesConfig = [
         element: <ContactUs />,
       },
       {
-        path: "cart",
-        element: <Cart />,
+        path: "order",
+        element: <Order />,
       },
       {
         path: "product/:productId",

@@ -5,11 +5,14 @@ type ProductState = {
   product: ProductType;
   isLoading: boolean;
   hasError: boolean;
+  productId: number;
+} & CustomProductParams;
+
+export type CustomProductParams = {
   color?: ProductColorType;
   size?: string;
   stickerNumber?: number;
   model?: string;
-  productId: number;
 };
 
 const initialState: ProductState = {
