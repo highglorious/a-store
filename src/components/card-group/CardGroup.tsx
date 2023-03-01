@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import { Typography } from "@alfalab/core-components/typography";
 import "./CardGroup.css";
 import { ProductGroupType } from "../../types/api";
@@ -10,29 +10,41 @@ export const CardGroup: FC<ProductGroupType> = ({
   description,
   products,
 }) => {
-  const cards = products.map(
-    ({ id, preview, title, price, availability, subtitle, stickerNumbers }) => (
-      <Card
-        key={id}
-        preview={preview}
-        title={title}
-        price={price}
-        availability={availability}
-        path={`/product/${id}`}
-      >
-        <Typography.TitleResponsive
-          className="card__subtitle"
-          tag="div"
-          view="xsmall"
-          color="tertiary"
-        >
-          {subtitle}
-        </Typography.TitleResponsive>
-        {/* <div className="card__item-qty">
+  const cards = useMemo(
+    () =>
+      products.map(
+        ({
+          id,
+          preview,
+          title,
+          price,
+          availability,
+          subtitle,
+          stickerNumbers,
+        }) => (
+          <Card
+            key={id}
+            preview={preview}
+            title={title}
+            price={price}
+            availability={availability}
+            path={`/product/${id}`}
+          >
+            <Typography.TitleResponsive
+              className="card__subtitle"
+              tag="div"
+              view="xsmall"
+              color="tertiary"
+            >
+              {subtitle}
+            </Typography.TitleResponsive>
+            {/* <div className="card__item-qty">
           Есть такой стикер и еще {stickerNumbers!.length - 1}
         </div> */}
-      </Card>
-    )
+          </Card>
+        )
+      ),
+    [products]
   );
 
   return (

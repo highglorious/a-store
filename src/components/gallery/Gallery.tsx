@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useMemo, useState } from "react";
 import "./Gallery.css";
 import { ProductType } from "../../types/api";
 
@@ -7,19 +7,23 @@ type GalleryProps = Pick<ProductType, "images">;
 export const Gallery: FC<GalleryProps> = ({ images }) => {
   const [viewImage, setViewImage] = useState<number>(0);
 
-  const listImages = images?.map((image, index) => (
-    <img
-      data-testid="list-img"
-      className={
-        "gallery__list-image" +
-        (index === viewImage ? " gallery__list-image_active" : "")
-      }
-      key={index}
-      src={image}
-      alt={`custom design ${index}`}
-      onClick={() => previewImageHandler(index)}
-    />
-  ));
+  const listImages = useMemo(
+    () =>
+      images?.map((image, index) => (
+        <img
+          data-testid="list-img"
+          className={
+            "gallery__list-image" +
+            (index === viewImage ? " gallery__list-image_active" : "")
+          }
+          key={index}
+          src={image}
+          alt={`custom design ${index}`}
+          onClick={() => previewImageHandler(index)}
+        />
+      )),
+    [images, viewImage]
+  );
 
   const previewImageHandler = (index: number) => {
     setViewImage(index);

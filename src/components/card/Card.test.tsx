@@ -4,8 +4,7 @@ import { MemoryRouter } from "react-router-dom";
 import { Card } from ".";
 
 describe("Card Component Test", () => {
-  test("render card component with or without availability", async () => {
-    // ARRANGE
+  test("should render card component with or without availability", async () => {
     const data = {
       id: 0,
       preview:

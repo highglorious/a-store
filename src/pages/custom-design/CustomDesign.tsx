@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect } from "react";
+import { FC, useCallback, useEffect, useMemo } from "react";
 import { Typography } from "@alfalab/core-components/typography";
 import { Gap } from "@alfalab/core-components/gap";
 import { Spinner } from "@alfalab/core-components/spinner";
@@ -23,15 +23,19 @@ export const CustomDesign: FC = () => {
     dispatch(customDesignActions.request());
   }, []);
 
-  const cardGroup = productGroup.map(({ id, title, description, products }) => (
-    <CardGroup
-      id={id}
-      key={id}
-      title={title}
-      description={description}
-      products={products}
-    />
-  ));
+  const cardGroup = useMemo(
+    () =>
+      productGroup.map(({ id, title, description, products }) => (
+        <CardGroup
+          id={id}
+          key={id}
+          title={title}
+          description={description}
+          products={products}
+        />
+      )),
+    [productGroup]
+  );
   if (isLoading) {
     return <Spinner visible={true} size="m" />;
   }

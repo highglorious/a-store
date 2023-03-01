@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import { Select, SelectProps } from "@alfalab/core-components/select";
 import { Gap } from "@alfalab/core-components/gap";
 import "./ProductForm.css";
@@ -29,22 +29,38 @@ export const ProductForm: FC<CustomProductType> = ({
   const model = useAppSelector(modelSelector);
   const stickerNumber = useAppSelector(stickerNumberSelector);
 
-  const modelOptions = models?.map((v, i) => {
-    return { key: `${i}`, value: v, content: v };
-  });
-  const colorOptions = colors?.map((v, i) => {
-    return {
-      key: `${i}`,
-      value: v,
-      content: colorVariant[v as keyof typeof colorVariant],
-    };
-  });
-  const sizeOptions = sizes?.map((v, i) => {
-    return { key: `${i}`, value: v, content: v };
-  });
-  const stickerNumberOptions = stickerNumbers?.map((v, i) => {
-    return { key: `${i}`, value: v, content: `${v}` };
-  });
+  const modelOptions = useMemo(
+    () =>
+      models?.map((v, i) => {
+        return { key: `${i}`, value: v, content: v };
+      }),
+    [models]
+  );
+  const colorOptions = useMemo(
+    () =>
+      colors?.map((v, i) => {
+        return {
+          key: `${i}`,
+          value: v,
+          content: colorVariant[v as keyof typeof colorVariant],
+        };
+      }),
+    [colors]
+  );
+  const sizeOptions = useMemo(
+    () =>
+      sizes?.map((v, i) => {
+        return { key: `${i}`, value: v, content: v };
+      }),
+    [sizes]
+  );
+  const stickerNumberOptions = useMemo(
+    () =>
+      stickerNumbers?.map((v, i) => {
+        return { key: `${i}`, value: v, content: `${v}` };
+      }),
+    [stickerNumbers]
+  );
 
   const handleChangeColor: SelectProps["onChange"] = (payload) => {
     dispatch(productActions.setColor(payload?.selected?.value));
