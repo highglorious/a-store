@@ -13,14 +13,17 @@
 .product-block-wrapper {
   display: flex;
   justify-content: flex-start;
-  flex-direction: row;
+
   flex-wrap: wrap;
   padding: 5px;
 }
 
 .product-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
   flex: 1 1 45%;
-
   min-width: 400px;
   padding: 10px;
 }

@@ -1,9 +1,9 @@
+import { FC } from "react";
+import { Link } from "react-router-dom";
 import { Typography } from "@alfalab/core-components/typography";
 import { ListMIcon } from "@alfalab/icons-glyph/ListMIcon";
-import { Link } from "react-router-dom";
 import "./Header.css";
 import { SidePanelProps } from "../side-panel";
-import { FC } from "react";
 
 export const Header: FC<Pick<SidePanelProps, "handleView">> = ({
   handleView,

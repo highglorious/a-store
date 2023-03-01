@@ -1,5 +1,5 @@
-import { Typography } from "@alfalab/core-components/typography";
 import { FC } from "react";
+import { Typography } from "@alfalab/core-components/typography";
 import "./Footer.css";
 export const Footer: FC = () => {
   return (

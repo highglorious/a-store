@@ -1,9 +1,9 @@
+import { FC } from "react";
 import { Link } from "react-router-dom";
+import { Typography } from "@alfalab/core-components/typography";
 import "./Home.css";
 import customDesignImage from "./custom-design-link-img.jpeg";
 import madeInAlfaImage from "./made-in-alfa-link-img.jpeg";
-import { Typography } from "@alfalab/core-components/typography";
-import { FC } from "react";
 
 export const Home: FC = () => {
   return (
