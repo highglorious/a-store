@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import {
   Controller,
   SubmitHandler,
@@ -16,26 +16,31 @@ import { MaskedInput } from "@alfalab/core-components/masked-input";
 import { GenericWrapper } from "@alfalab/core-components/generic-wrapper";
 import { Gap } from "@alfalab/core-components/gap";
 import { Button } from "@alfalab/core-components/button";
-import { Typography } from "@alfalab/core-components/typography";
-import emailMask from "text-mask-addons/dist/emailMask";
+
 import "./OrderForm.css";
 
 export const OrderForm: FC = () => {
-  const { handleSubmit, control, watch } = useFormContext();
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+    reset,
+  } = useFormContext();
   const deliveryState = useWatch({ name: "delivery" });
   const addressIsActive = deliveryState === "self" ? true : false;
 
   const agreementState = useWatch({ name: "agreement" });
 
-  const onSubmit: SubmitHandler<FieldValues> = (formData) =>
+  const onSubmit: SubmitHandler<FieldValues> = (formData) => {
     console.log(formData);
+    reset();
+  };
 
   return (
     <GenericWrapper column grow>
       <Controller
         name="name"
         control={control}
-        rules={{ required: true, maxLength: 40 }}
         render={({ field }) => (
           <Input
             {...field}
@@ -43,7 +48,7 @@ export const OrderForm: FC = () => {
             block={true}
             label="ФИО"
             size="m"
-            error={false}
+            error={errors?.name?.message as ReactNode}
             labelView="outer"
           />
         )}
@@ -52,17 +57,15 @@ export const OrderForm: FC = () => {
       <Controller
         name="email"
         control={control}
-        rules={{ required: true, pattern: /^\S+@\S+$/i }}
         render={({ field }) => (
           <MaskedInput
             {...field}
-            // mask={emailMask}
             placeholder={"example@site.ru"}
             block={true}
             type="email"
             labelView="outer"
             label="E-mail"
-            error={false}
+            error={errors?.email?.message as ReactNode}
           />
         )}
       />
@@ -70,7 +73,6 @@ export const OrderForm: FC = () => {
       <Controller
         name="phone"
         control={control}
-        rules={{ required: true }}
         render={({ field }) => (
           <PhoneInput
             {...field}
@@ -78,7 +80,7 @@ export const OrderForm: FC = () => {
             block={true}
             labelView="outer"
             label="Телефон"
-            error={false}
+            error={errors?.phone?.message as ReactNode}
           />
         )}
       />
@@ -86,7 +88,6 @@ export const OrderForm: FC = () => {
       <Controller
         name="address"
         control={control}
-        rules={{ required: true }}
         render={({ field }) => (
           <Input
             {...field}
@@ -94,7 +95,7 @@ export const OrderForm: FC = () => {
             labelView="outer"
             label="Адрес"
             size="m"
-            error={false}
+            error={errors?.address?.message as ReactNode}
             placeholder={"Индекс, город, улица, дом, квартира"}
             disabled={addressIsActive}
             value={addressIsActive ? "пр-т Андропова, 18 корп. 3" : undefined}
@@ -105,7 +106,6 @@ export const OrderForm: FC = () => {
       <Controller
         name="delivery"
         control={control}
-        // rules={{ required: true }}
         render={({ field }) => (
           <RadioGroup {...field} label="Доставка" error={false}>
             <Radio label="Доставка по России — 350₽" value="country" size="m" />
@@ -122,7 +122,6 @@ export const OrderForm: FC = () => {
       <Controller
         name="comment"
         control={control}
-        // rules={{ required: true }}
         render={({ field }) => (
           <Textarea
             {...field}
@@ -132,9 +131,9 @@ export const OrderForm: FC = () => {
             block={true}
             label={"Комментарий к заказу"}
             labelView="outer"
-            maxLength={96}
+            maxLength={512}
             showCounter={true}
-            error={false}
+            error={errors?.comment?.message as ReactNode}
           />
         )}
       />
@@ -142,7 +141,6 @@ export const OrderForm: FC = () => {
       <Controller
         name="agreement"
         control={control}
-        rules={{ required: true }}
         render={({ field }) => (
           <Checkbox
             {...field}
@@ -150,7 +148,7 @@ export const OrderForm: FC = () => {
             size="m"
             checked={field.value}
             label="Согласен с политикой конфиденциальности и обработки персональных данных"
-            error={false}
+            error={errors?.agreement?.message as ReactNode}
           />
         )}
       />
@@ -160,7 +158,7 @@ export const OrderForm: FC = () => {
         size="m"
         view="primary"
         onClick={handleSubmit(onSubmit)}
-        disabled={!agreementState}
+        // disabled={!agreementState}
       >
         Дальше
       </Button>

@@ -1,5 +1,7 @@
 import { FC, useMemo } from "react";
 import { FormProvider, useForm, useWatch } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { object, string, InferType, boolean } from "yup";
 import { Amount } from "@alfalab/core-components/amount";
 import { Divider } from "@alfalab/core-components/divider";
 import { Gap } from "@alfalab/core-components/gap";
@@ -24,6 +26,38 @@ export type OrderFormValues = {
   agreement: boolean;
 };
 
+const requiredFieldMessage = "Обязательное поле для заполнения";
+const phoneRegExp = /^[0-9+\- ]{16}$/;
+const emailRegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const nameRegExp = /^[A-zА-я\s-]+$/;
+
+const formSchema = object({
+  name: string()
+    .required(requiredFieldMessage)
+    .matches(nameRegExp, "Используйте только буквы, пробел и символ -")
+    .trim()
+    .max(256, "Максимальное количество символов 256"),
+
+  email: string()
+    .email("Поле заполнено некорректно")
+    .required(requiredFieldMessage)
+    .matches(emailRegExp, "Поле заполнено некорректно"),
+  phone: string()
+    .required(requiredFieldMessage)
+    .matches(phoneRegExp, "Введен неполный номер"),
+  address: string()
+    .trim()
+    .max(256, "Максимальное количество символов 256")
+    .when("delivery", {
+      is: "self",
+      then: (schema) => schema,
+      otherwise: (schema) => schema.required(requiredFieldMessage),
+    }),
+  comment: string().trim().max(512),
+  delivery: string<DeliveryStateType>().required(),
+  agreement: boolean().oneOf([true], "Необходимо Ваше согласие").required(),
+});
+
 export const Order: FC = () => {
   const methods = useForm<OrderFormValues>({
     defaultValues: {
@@ -35,6 +69,7 @@ export const Order: FC = () => {
       delivery: "self",
       agreement: false,
     },
+    resolver: yupResolver(formSchema),
   });
   const cartItems = useAppSelector(itemsCartSelector);
   const totalPrice = useMemo(() => totalCostOfItems(cartItems), [cartItems]);

@@ -1,30 +1,32 @@
+/* eslint-disable testing-library/no-debugging-utils */
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
+import preview from "jest-preview";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { FormProvider, useForm } from "react-hook-form";
 import { OrderForm } from ".";
 import { OrderFormValues } from "../../pages/order";
 
+const RenderWithFormProvider = () => {
+  const methods = useForm<OrderFormValues>({
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      address: "",
+      comment: "",
+      delivery: "self",
+      agreement: false,
+    },
+  });
+  return (
+    <FormProvider {...methods}>
+      <OrderForm />
+    </FormProvider>
+  );
+};
+
 describe("OrderForm Component Test", () => {
   test("should render form with fields and button", async () => {
-    const RenderWithFormProvider = () => {
-      const methods = useForm<OrderFormValues>({
-        defaultValues: {
-          name: "",
-          email: "",
-          phone: "",
-          address: "",
-          comment: "",
-          delivery: "self",
-          agreement: false,
-        },
-      });
-      return (
-        <FormProvider {...methods}>
-          <OrderForm />
-        </FormProvider>
-      );
-    };
-
     render(<RenderWithFormProvider />);
 
     expect(screen.getByLabelText("ФИО")).toBeInTheDocument();
@@ -38,6 +40,4 @@ describe("OrderForm Component Test", () => {
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "next" })).toBeInTheDocument();
   });
-
-  test.skip("validate test", async () => {});
 });
