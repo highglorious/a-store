@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect } from "react";
+import { FC, useCallback, useEffect, useMemo } from "react";
 import { Typography } from "@alfalab/core-components/typography";
 import { Spinner } from "@alfalab/core-components/spinner";
 import { Skeleton } from "@alfalab/core-components/skeleton";
@@ -23,17 +23,19 @@ export const MadeInAlfa: FC = () => {
     dispatch(madeInAlfaActions.request());
   }, []);
 
-  const cards = productList.map(
-    ({ id, preview, title, price, availability }) => (
-      <Card
-        key={id}
-        preview={preview}
-        title={title}
-        price={price}
-        availability={availability}
-        path={`/product/${id}`}
-      />
-    )
+  const cards = useMemo(
+    () =>
+      productList.map(({ id, preview, title, price, availability }) => (
+        <Card
+          key={id}
+          preview={preview}
+          title={title}
+          price={price}
+          availability={availability}
+          path={`/product/${id}`}
+        />
+      )),
+    [productList]
   );
 
   if (isLoading) {

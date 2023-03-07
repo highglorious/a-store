@@ -3,7 +3,7 @@ import { fireEvent, screen } from "@testing-library/react";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import { CartPanel } from ".";
 import { store } from "../../store";
-import { renderWithProviders } from "../../utils/test-utils";
+import { matchMediaObject, renderWithProviders } from "../../utils/test-utils";
 import { cartActions } from "../cart/cartSlice";
 
 const handler = () => {};
@@ -18,21 +18,7 @@ const router = createMemoryRouter(routes, {
   initialEntries: ["/"],
 });
 
-beforeAll(() => {
-  Object.defineProperty(window, "matchMedia", {
-    writable: true,
-    value: (query: any) => ({
-      matches: false,
-      media: query,
-      onchange: null,
-      addListener: jest.fn(), // Deprecated
-      removeListener: jest.fn(), // Deprecated
-      addEventListener: jest.fn(),
-      removeEventListener: jest.fn(),
-      dispatchEvent: jest.fn(),
-    }),
-  });
-});
+beforeAll(matchMediaObject);
 
 describe("CartPanel Component Test", () => {
   test("should render component", async () => {

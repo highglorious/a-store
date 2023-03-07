@@ -41,7 +41,7 @@ describe("Cart Component Test", () => {
 
     renderWithProviders(<RouterProvider router={router} />, { store });
 
-    expect(screen.getByText("Итого:")).toBeInTheDocument();
+    expect(screen.getByText("Сумма:")).toBeInTheDocument();
     expect(screen.getByText("7 000")).toBeInTheDocument();
     expect(screen.getAllByRole("button", { name: /delete/i })).toHaveLength(2);
   });

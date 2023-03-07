@@ -26,9 +26,9 @@ export const CartButton: FC<Pick<CartPanelProps, "handleView">> = ({
   };
   const cartItems = useAppSelector(itemsCartSelector);
 
-  const totalNumberOfItems = cartItems.reduce(
-    (total, item) => total + item.quantity,
-    0
+  const totalNumberOfItems = useMemo(
+    () => cartItems.reduce((total, item) => total + item.quantity, 0),
+    [cartItems]
   );
 
   const totalPrice = useMemo(() => totalCostOfItems(cartItems), [cartItems]);

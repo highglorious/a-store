@@ -22,12 +22,20 @@ export type ProductGroupType = {
 export type ProductListType = ProductType[];
 export type ProductListGroupType = ProductGroupType[];
 
-export const colorVariant = {
-  white: "Белый",
-  black: "Черный",
-  red: "Красный",
-  green: "Зеленый",
-  gray: "Серый",
-} as const;
+export enum colorVariant {
+  white = "Белый",
+  black = "Черный",
+  red = "Красный",
+  green = "Зеленый",
+  gray = "Серый",
+}
 
 export type ProductColorType = keyof typeof colorVariant;
+
+export enum deliveryVariant {
+  self = 0,
+  country = 350,
+  city = 300,
+}
+
+export type DeliveryStateType = keyof typeof deliveryVariant;

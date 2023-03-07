@@ -11,7 +11,10 @@ import { totalCostOfItems } from "../../utils/totalCostOfItems";
 
 export const Cart: FC = () => {
   const cartItems = useAppSelector(itemsCartSelector);
-  const items = cartItems.map((item, key) => <CartItem key={key} {...item} />);
+  const items = useMemo(
+    () => cartItems.map((item, key) => <CartItem key={key} {...item} />),
+    [cartItems]
+  );
   const totalPrice = useMemo(() => totalCostOfItems(cartItems), [cartItems]);
   return (
     <GenericWrapper column>
@@ -24,7 +27,7 @@ export const Cart: FC = () => {
           tag="div"
           color="primary"
         >
-          Итого:
+          Сумма:
         </Typography.Text>
         <Amount value={totalPrice} minority={1} currency="RUB" bold="full" />
       </GenericWrapper>

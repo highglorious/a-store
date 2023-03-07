@@ -1,0 +1,14 @@
+.order-container {
+  max-width: clamp(360px, 95vw, 1200px);
+  min-height: auto;
+  margin: 0 auto;
+  padding: 0 20px;
+  flex: 1 1 auto;
+  align-self: stretch;
+}
+.order_empty-wrapper {
+  display: flex;
+  min-height: 90%;
+  justify-content: center;
+  align-items: center;
+}
