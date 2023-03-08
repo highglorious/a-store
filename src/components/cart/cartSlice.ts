@@ -62,8 +62,12 @@ const deleteItems = (
   state.items = removeCartItem(state.items, payload);
 };
 
+const clearCart = (state: CartState) => {
+  state.items = [];
+};
+
 export const { actions: cartActions, reducer: cartReducer } = createSlice({
   name: "cart",
   initialState: initialState,
-  reducers: { addItemToCart, addItem, removeItem, deleteItems },
+  reducers: { addItemToCart, addItem, removeItem, deleteItems, clearCart },
 });

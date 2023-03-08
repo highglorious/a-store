@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { getProducts } from "../../api/getProducts";
+import { getProducts } from "../../api/fetchData";
 import { ProductListGroupType } from "../../types/api";
 import { customDesignActions } from "./";
 

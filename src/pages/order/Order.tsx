@@ -14,16 +14,29 @@ import { itemsCartSelector } from "../../components/cart/cartSelectors";
 import { OrderForm } from "../../components/order-form";
 import { useAppSelector } from "../../hooks";
 import { totalCostOfItems } from "../../utils/totalCostOfItems";
-import { DeliveryStateType, deliveryVariant } from "../../types/api";
+import {
+  CreateOrderType,
+  DeliveryStateType,
+  deliveryVariant,
+} from "../../types/api";
+import { Spinner } from "@alfalab/core-components/spinner";
 
-export type OrderFormValues = {
-  name: string;
-  email: string;
-  phone: string;
-  address: string;
-  comment: string;
+export type OrderFormValues = Pick<
+  CreateOrderType,
+  "name" | "email" | "phone" | "address" | "comment"
+> & {
   delivery: DeliveryStateType;
   agreement: boolean;
+};
+
+export const defaultFormValues: OrderFormValues = {
+  name: "",
+  email: "",
+  phone: "",
+  address: "",
+  comment: "",
+  delivery: "self",
+  agreement: false,
 };
 
 const requiredFieldMessage = "Обязательное поле для заполнения";
@@ -31,7 +44,7 @@ const phoneRegExp = /^[0-9+\- ]{16}$/;
 const emailRegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const nameRegExp = /^[A-zА-я\s-]+$/;
 
-const formSchema = object({
+export const formSchema = object({
   name: string()
     .required(requiredFieldMessage)
     .matches(nameRegExp, "Используйте только буквы, пробел и символ -")
@@ -60,15 +73,7 @@ const formSchema = object({
 
 export const Order: FC = () => {
   const methods = useForm<OrderFormValues>({
-    defaultValues: {
-      name: "",
-      email: "",
-      phone: "",
-      address: "",
-      comment: "",
-      delivery: "self",
-      agreement: false,
-    },
+    defaultValues: defaultFormValues,
     resolver: yupResolver(formSchema),
   });
   const cartItems = useAppSelector(itemsCartSelector);
@@ -77,6 +82,14 @@ export const Order: FC = () => {
     control: methods.control,
     name: "delivery",
   });
+
+  const {
+    formState: { isSubmitSuccessful, isSubmitting },
+  } = methods;
+
+  if (isSubmitting) {
+    return <Spinner visible={true} size="m" />;
+  }
 
   return (
     <div className="order-container">
@@ -139,7 +152,7 @@ export const Order: FC = () => {
       ) : (
         <div className="order_empty-wrapper">
           <Typography.TitleResponsive view="xlarge" tag="div" color="primary">
-            Корзина пуста
+            {isSubmitSuccessful ? "Заказ создан успешно!" : "Корзина пуста"}
           </Typography.TitleResponsive>
         </div>
       )}

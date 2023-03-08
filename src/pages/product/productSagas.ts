@@ -1,6 +1,6 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { call, put, select, takeLatest } from "redux-saga/effects";
-import { getProducts } from "../../api/getProducts";
+import { getProducts } from "../../api/fetchData";
 import { ProductColorType, ProductType } from "../../types/api";
 import { productActions } from "./";
 import { productIdSelector } from "./productSelectors";

@@ -121,7 +121,7 @@ export const CartItem: FC<CartItemType> = (cartItemProps) => {
           </GenericWrapper>
         </Grid.Col>
         <Grid.Col width={{ mobile: 3, tablet: 3, desktop: 3 }}>
-          <GenericWrapper alignItems="center">
+          <GenericWrapper alignItems="center" justifyContent="end">
             <Amount value={price * quantity} minority={1} currency="RUB" />
 
             <Gap size="m" direction="horizontal" />

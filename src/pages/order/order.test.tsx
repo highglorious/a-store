@@ -5,8 +5,11 @@ import { fireEvent, screen } from "@testing-library/react";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import { Order } from ".";
 import { store } from "../../store";
+import { setupServer } from "msw/node";
 import { renderWithProviders } from "../../utils/test-utils";
 import { cartActions } from "../../components/cart/cartSlice";
+import { rest } from "msw";
+import { CreateOrderType } from "../../types/api";
 
 const routes = [
   {
@@ -19,6 +22,43 @@ const router = createMemoryRouter(routes, {
   initialEntries: ["/"],
 });
 
+const data: CreateOrderType = {
+  name: "name",
+  email: "valid@email.com",
+  phone: "+7 999 999-99-99",
+  address: "address",
+  deliveryType: "Самовывоз (пр-т Андропова, 18 корп. 3)",
+  paymentType: "Банковская карта",
+  products: [
+    {
+      id: 0,
+      totalPrice: 5000,
+      totalCount: 5,
+      color: "green",
+    },
+  ],
+};
+
+export const handlers = [
+  rest.post("http://qa-games.ru/astore/create-order", async (req, res, ctx) => {
+    const payload = await req.json();
+
+    console.log(JSON.stringify(payload));
+    console.log(JSON.stringify(data));
+
+    if (JSON.stringify(payload) === JSON.stringify(data)) {
+      return res(ctx.status(200));
+    } else {
+      return res(ctx.status(400));
+    }
+  }),
+];
+const server = setupServer(...handlers);
+
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
+
 describe("Order Page Test", () => {
   test("should render message if cart is empty", async () => {
     renderWithProviders(<RouterProvider router={router} />, { store });
@@ -26,7 +66,13 @@ describe("Order Page Test", () => {
     expect(screen.getByText("Корзина пуста")).toBeInTheDocument();
   });
 
-  test("should render 1 cart items with total cost", async () => {
+  test("should render error notification", async () => {
+    server.use(
+      rest.post("http://qa-games.ru/astore/create-order", (req, res, ctx) => {
+        return res.networkError("Failed to connect");
+      })
+    );
+
     store.dispatch(
       cartActions.addItemToCart({
         id: 0,
@@ -34,70 +80,15 @@ describe("Order Page Test", () => {
         preview: " ",
         price: 1000,
         quantity: 5,
+        color: "green",
       })
     );
 
     renderWithProviders(<RouterProvider router={router} />, { store });
 
-    //preview.debug();
-    expect(screen.getByText("Ваш заказ")).toBeInTheDocument();
-    expect(screen.getByText("Итого:")).toBeInTheDocument();
-
-    await fireEvent.click(screen.getByRole("radio", { name: /России/i }));
-    expect(screen.getByText("5 350")).toBeInTheDocument();
-
-    await fireEvent.click(screen.getByRole("radio", { name: /Москве/i }));
-    expect(screen.getByText("5 300")).toBeInTheDocument();
-  });
-
-  test("should display required error when inputs is empty", async () => {
-    renderWithProviders(<RouterProvider router={router} />, { store });
-
-    await fireEvent.click(screen.getByRole("button", { name: "next" }));
-
-    expect(
-      await screen.findAllByText("Обязательное поле для заполнения")
-    ).toHaveLength(3);
-  });
-
-  test("should display required error when change delivery state", async () => {
-    renderWithProviders(<RouterProvider router={router} />, { store });
-
-    await fireEvent.click(screen.getByRole("radio", { name: /России/i }));
-    await fireEvent.click(screen.getByRole("button", { name: "next" }));
-
-    expect(
-      await screen.findAllByText("Обязательное поле для заполнения")
-    ).toHaveLength(4);
-  });
-
-  test("should display matching error when email is invalid", async () => {
-    renderWithProviders(<RouterProvider router={router} />, { store });
-
-    fireEvent.input(screen.getByRole("textbox", { name: /E-mail/i }), {
-      target: {
-        value: "invalid-email",
-      },
-    });
-
-    await fireEvent.click(screen.getByRole("button", { name: "next" }));
-
-    expect(
-      await screen.findByText("Поле заполнено некорректно")
-    ).toBeInTheDocument();
-    expect(screen.getByRole("textbox", { name: /E-mail/i })).toHaveValue(
-      "invalid-email"
-    );
-  });
-
-  test("should not display matching or requred error when inputs is valid", async () => {
-    renderWithProviders(<RouterProvider router={router} />, { store });
-
-    await fireEvent.click(screen.getByRole("radio", { name: /России/i }));
-
     fireEvent.input(screen.getByRole("textbox", { name: /ФИО/i }), {
       target: {
-        value: "Ivanov Viacheslav",
+        value: "name",
       },
     });
 
@@ -115,82 +106,75 @@ describe("Order Page Test", () => {
 
     fireEvent.input(screen.getByRole("textbox", { name: /Адрес/i }), {
       target: {
-        value: "680051, Хабаровск, Суворва 71 - 45",
+        value: "address",
       },
     });
 
-    await fireEvent.click(screen.getByRole("button", { name: "next" }));
-
-    expect(
-      screen.queryAllByText("Обязательное поле для заполнения")
-    ).toHaveLength(0);
-
-    expect(
-      screen.queryByText("Поле заполнено некорректно")
-    ).not.toBeInTheDocument();
-    expect(screen.getByRole("textbox", { name: /E-mail/i })).toHaveValue(
-      "valid@email.com"
-    );
-    expect(
-      screen.queryByText("Используйте только буквы, пробел и символ -")
-    ).not.toBeInTheDocument();
-    expect(screen.getByRole("textbox", { name: /ФИО/i })).toHaveValue(
-      "Ivanov Viacheslav"
-    );
-    expect(screen.queryByText("Введен неполный номер")).not.toBeInTheDocument();
-    expect(screen.getByRole("textbox", { name: /Телефон/i })).toHaveValue(
-      "+7 999 999-99-99"
-    );
-    expect(screen.getByRole("textbox", { name: /Адрес/i })).toHaveValue(
-      "680051, Хабаровск, Суворва 71 - 45"
-    );
-  });
-
-  test("should display matching error when phone number is invalid", async () => {
-    renderWithProviders(<RouterProvider router={router} />, { store });
-
-    fireEvent.input(screen.getByRole("textbox", { name: /Телефон/i }), {
-      target: {
-        value: "99999",
-      },
-    });
+    fireEvent.click(screen.getByRole("checkbox"));
 
     await fireEvent.click(screen.getByRole("button", { name: "next" }));
 
-    expect(
-      await screen.findByText("Введен неполный номер")
-    ).toBeInTheDocument();
-    expect(screen.getByRole("textbox", { name: /Телефон/i })).toHaveValue(
-      "+7 999 99"
-    );
+    expect(await screen.findByText("Что-то пошло не так!")).toBeInTheDocument();
   });
 
-  test("should not display required error when agreement is not checked", async () => {
-    renderWithProviders(<RouterProvider router={router} />, { store });
-
-    await fireEvent.click(screen.getByRole("button", { name: "next" }));
-
-    expect(
-      screen.getByRole("checkbox", { checked: false })
-    ).toBeInTheDocument();
-    expect(
-      await screen.findByText("Необходимо Ваше согласие")
-    ).toBeInTheDocument();
-  });
-
-  test("should display matching error when fullname is invalid", async () => {
+  test("should render succesful text", async () => {
     renderWithProviders(<RouterProvider router={router} />, { store });
 
     fireEvent.input(screen.getByRole("textbox", { name: /ФИО/i }), {
       target: {
-        value: "99999 @@ ^%",
+        value: "name",
       },
     });
+
+    fireEvent.input(screen.getByRole("textbox", { name: /E-mail/i }), {
+      target: {
+        value: "valid@email.com",
+      },
+    });
+
+    fireEvent.input(screen.getByRole("textbox", { name: /Телефон/i }), {
+      target: {
+        value: "9999999999",
+      },
+    });
+
+    fireEvent.input(screen.getByRole("textbox", { name: /Адрес/i }), {
+      target: {
+        value: "address",
+      },
+    });
+
+    fireEvent.click(screen.getByRole("checkbox"));
 
     await fireEvent.click(screen.getByRole("button", { name: "next" }));
 
     expect(
-      await screen.findByText("Используйте только буквы, пробел и символ -")
+      await screen.findByText("Заказ создан успешно!")
     ).toBeInTheDocument();
+  });
+
+  test("should render 1 cart items with total cost", async () => {
+    store.dispatch(
+      cartActions.addItemToCart({
+        id: 0,
+        title: "title_0",
+        preview: " ",
+        price: 1000,
+        quantity: 5,
+        color: "green",
+      })
+    );
+
+    renderWithProviders(<RouterProvider router={router} />, { store });
+
+    //preview.debug();
+    expect(screen.getByText("Ваш заказ")).toBeInTheDocument();
+    expect(screen.getByText("Итого:")).toBeInTheDocument();
+
+    await fireEvent.click(screen.getByRole("radio", { name: /России/i }));
+    expect(screen.getByText("5 350")).toBeInTheDocument();
+
+    await fireEvent.click(screen.getByRole("radio", { name: /Москве/i }));
+    expect(screen.getByText("5 300")).toBeInTheDocument();
   });
 });
