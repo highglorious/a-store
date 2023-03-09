@@ -1,5 +1,7 @@
 import { FC, useMemo } from "react";
 import { FormProvider, useForm, useWatch } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { object, string, InferType, boolean } from "yup";
 import { Amount } from "@alfalab/core-components/amount";
 import { Divider } from "@alfalab/core-components/divider";
 import { Gap } from "@alfalab/core-components/gap";
@@ -12,29 +14,67 @@ import { itemsCartSelector } from "../../components/cart/cartSelectors";
 import { OrderForm } from "../../components/order-form";
 import { useAppSelector } from "../../hooks";
 import { totalCostOfItems } from "../../utils/totalCostOfItems";
-import { DeliveryStateType, deliveryVariant } from "../../types/api";
+import {
+  CreateOrderType,
+  DeliveryStateType,
+  deliveryVariant,
+} from "../../types/api";
+import { Spinner } from "@alfalab/core-components/spinner";
 
-export type OrderFormValues = {
-  name: string;
-  email: string;
-  phone: string;
-  address: string;
-  comment: string;
+export type OrderFormValues = Pick<
+  CreateOrderType,
+  "name" | "email" | "phone" | "address" | "comment"
+> & {
   delivery: DeliveryStateType;
   agreement: boolean;
 };
 
+export const defaultFormValues: OrderFormValues = {
+  name: "",
+  email: "",
+  phone: "",
+  address: "",
+  comment: "",
+  delivery: "self",
+  agreement: false,
+};
+
+const requiredFieldMessage = "Обязательное поле для заполнения";
+const phoneRegExp = /^[0-9+\- ]{16}$/;
+const emailRegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const nameRegExp = /^[A-zА-я\s-]+$/;
+
+export const formSchema = object({
+  name: string()
+    .required(requiredFieldMessage)
+    .matches(nameRegExp, "Используйте только буквы, пробел и символ -")
+    .trim()
+    .max(256, "Максимальное количество символов 256"),
+
+  email: string()
+    .email("Поле заполнено некорректно")
+    .required(requiredFieldMessage)
+    .matches(emailRegExp, "Поле заполнено некорректно"),
+  phone: string()
+    .required(requiredFieldMessage)
+    .matches(phoneRegExp, "Введен неполный номер"),
+  address: string()
+    .trim()
+    .max(256, "Максимальное количество символов 256")
+    .when("delivery", {
+      is: "self",
+      then: (schema) => schema,
+      otherwise: (schema) => schema.required(requiredFieldMessage),
+    }),
+  comment: string().trim().max(512),
+  delivery: string<DeliveryStateType>().required(),
+  agreement: boolean().oneOf([true], "Необходимо Ваше согласие").required(),
+});
+
 export const Order: FC = () => {
   const methods = useForm<OrderFormValues>({
-    defaultValues: {
-      name: "",
-      email: "",
-      phone: "",
-      address: "",
-      comment: "",
-      delivery: "self",
-      agreement: false,
-    },
+    defaultValues: defaultFormValues,
+    resolver: yupResolver(formSchema),
   });
   const cartItems = useAppSelector(itemsCartSelector);
   const totalPrice = useMemo(() => totalCostOfItems(cartItems), [cartItems]);
@@ -42,6 +82,14 @@ export const Order: FC = () => {
     control: methods.control,
     name: "delivery",
   });
+
+  const {
+    formState: { isSubmitSuccessful, isSubmitting },
+  } = methods;
+
+  if (isSubmitting) {
+    return <Spinner visible={true} size="m" />;
+  }
 
   return (
     <div className="order-container">
@@ -104,7 +152,7 @@ export const Order: FC = () => {
       ) : (
         <div className="order_empty-wrapper">
           <Typography.TitleResponsive view="xlarge" tag="div" color="primary">
-            Корзина пуста
+            {isSubmitSuccessful ? "Заказ создан успешно!" : "Корзина пуста"}
           </Typography.TitleResponsive>
         </div>
       )}
