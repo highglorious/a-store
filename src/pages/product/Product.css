@@ -1,21 +1,16 @@
-:root {
-  --product-block-wrapper-gap: 20px;
-}
-
 .product-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width: 1200px;
+  max-width: var(--width-desktop);
   margin: 0 auto;
-  padding: 0 10px;
+  padding: 0 var(--gap-s);
 }
 .product-block-wrapper {
   display: flex;
   justify-content: flex-start;
-
   flex-wrap: wrap;
-  padding: 5px;
+  padding: var(--gap-2xs);
 }
 
 .product-block {
@@ -25,13 +20,5 @@
   align-items: flex-start;
   flex: 1 1 45%;
   min-width: 400px;
-  padding: 10px;
-}
-
-.product-block__price {
-}
-
-.product-block__description {
-}
-.product-block__title {
+  padding: var(--gap-s);
 }

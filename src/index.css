@@ -1,6 +1,17 @@
 @import-normalize; /* bring in normalize.css styles */
+@import "@alfalab/core-components/vars";
 
-/* rest of app styles */
+:root {
+  --h1-font-desktop: 110px;
+  --h1-font-tablet: 75px;
+  --h1-font-mobile: 42px;
+  --line-height-tablet: 70px;
+  --line-height-mobile: 36px;
+  --h1-font-bold: 700;
+  --width-desktop: 1200px;
+  --width-tablet: 992px;
+  --width-mobile: 600px;
+}
 
 body {
   margin: 0;

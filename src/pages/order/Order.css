@@ -2,7 +2,7 @@
   max-width: clamp(360px, 95vw, 1200px);
   min-height: auto;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 var(--gap-l);
   flex: 1 1 auto;
   align-self: stretch;
 }
