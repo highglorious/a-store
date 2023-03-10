@@ -38,9 +38,6 @@ export const CardGroup: FC<ProductGroupType> = ({
             >
               {subtitle}
             </Typography.TitleResponsive>
-            {/* <div className="card__item-qty">
-          Есть такой стикер и еще {stickerNumbers!.length - 1}
-        </div> */}
           </Card>
         )
       ),

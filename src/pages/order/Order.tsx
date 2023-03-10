@@ -1,7 +1,7 @@
 import { FC, useMemo } from "react";
 import { FormProvider, useForm, useWatch } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { object, string, InferType, boolean } from "yup";
+import { object, string, boolean } from "yup";
 import { Amount } from "@alfalab/core-components/amount";
 import { Divider } from "@alfalab/core-components/divider";
 import { Gap } from "@alfalab/core-components/gap";

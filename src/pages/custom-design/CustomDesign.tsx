@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useMemo } from "react";
+import { FC, useEffect, useMemo } from "react";
 import { Typography } from "@alfalab/core-components/typography";
 import { Gap } from "@alfalab/core-components/gap";
 import { Spinner } from "@alfalab/core-components/spinner";
@@ -21,7 +21,7 @@ export const CustomDesign: FC = () => {
 
   useEffect(() => {
     dispatch(customDesignActions.request());
-  }, []);
+  }, [dispatch]);
 
   const cardGroup = useMemo(
     () =>

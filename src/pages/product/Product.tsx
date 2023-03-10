@@ -19,8 +19,7 @@ import {
   sizeSelector,
   stickerNumberSelector,
 } from "./productSelectors";
-import { ErrorBoundary } from "../../pages/error-boundary";
-import { cartActions, CartItemType } from "../../components/cart/cartSlice";
+import { cartActions } from "../../components/cart/cartSlice";
 
 export const Product: FC = () => {
   const { productId } = useParams();
@@ -47,7 +46,7 @@ export const Product: FC = () => {
 
   useEffect(() => {
     dispatch(productActions.request(productId!));
-  }, [productId]);
+  }, [productId, dispatch]);
 
   if (isLoading) {
     return <Spinner visible={true} size="m" />;

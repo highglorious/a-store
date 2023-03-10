@@ -1,7 +1,6 @@
-import { FC, useCallback, useEffect, useMemo } from "react";
+import { FC, useEffect, useMemo } from "react";
 import { Typography } from "@alfalab/core-components/typography";
 import { Spinner } from "@alfalab/core-components/spinner";
-import { Skeleton } from "@alfalab/core-components/skeleton";
 import "./MadeInAlfa.css";
 import { Card } from "../../components/card";
 import { madeInAlfaActions } from "./madeInAlfaSlice";
@@ -21,7 +20,7 @@ export const MadeInAlfa: FC = () => {
 
   useEffect(() => {
     dispatch(madeInAlfaActions.request());
-  }, []);
+  }, [dispatch]);
 
   const cards = useMemo(
     () =>

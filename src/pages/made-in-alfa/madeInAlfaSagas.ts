@@ -1,4 +1,4 @@
-import { call, put, select, takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest } from "redux-saga/effects";
 import { madeInAlfaActions } from "./";
 import { getProducts } from "../../api/fetchData";
 import { ProductListType } from "../../types/api";
