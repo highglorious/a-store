@@ -2,14 +2,11 @@
   text-decoration: none;
 }
 
-.side-panel-link__title {
-}
-
 .side-panel-link__title_active {
-  color: #ef3124;
+  color: var(--color-red-brand);
 }
 
 .side-panel__icons {
   display: flex;
-  gap: 4px;
+  gap: var(--gap-2xs);
 }

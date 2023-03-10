@@ -4,7 +4,7 @@
   right: 30px;
 }
 
-@media (max-width: 1024px) {
+@media screen and (max-width: 1024px) {
   .cart-button {
     top: auto;
     bottom: 30px;
