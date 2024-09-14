@@ -15,7 +15,7 @@
 ## Установка
 
 ```
-https://www.gitlab-alfa-campus.ru/V8v/a-store.git
+git clone https://github.com/highglorious/a-store.git
 
 npm install
 ```
